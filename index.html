@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <h2>Staff Members</h2>
+
+        <div class="box_workers">
+           
+        </div>
+        <div class="btnAdd">
+            <button>+ Add New</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="box_rom">
+
+            <div>
+                <div>
+                    <h3>Conference room</h3>
+                </div>
+                <button>+</button>
+            </div>
+
+            <div>
+                <div></div>
+            </div>
+
+            <div>
+                <div>
+                    <h3>service room</h3>
+                </div>
+                <button>+</button>
+            </div>
+
+            <div>
+                <div>
+                    <h3>security room</h3>
+                </div>
+                <button>+</button>
+            </div>
+
+            <div>
+                <div>
+                    <h3>Reception</h3>
+                </div>
+                <button>+</button>
+            </div>
+
+            <div>
+                <div></div>
+            </div>
+
+            <div>
+                <div>
+                    <h3>staff room</h3>
+                </div>
+                <button>+</button>
+            </div>
+            <div>
+                <div>
+                    <h3>Vault</h3>
+                </div>
+                <button>+</button>
+            </div>
+
+        </div>
+    </main>
+    <section style="display:none;">
+        <div>
+            <form id="workerForm" action="#" method="post">
+                <div>
+                    <label>Name</label>
+                    <input type="text" name="name" id="name">
+                    <span class="name errorSpan"></span>
+
+                    <label>Role</label>
+                    <select name="role" class="role" id="role">
+                        <option value="Receptionist">Receptionist</option>
+                        <option value="It guy">It guy</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="role errorSpan"></span>
+
+                    <label>Url</label>
+                    <input type="url" name="url" id="url">
+                    <span class="url errorSpan"></span>
+                    <div>
+                        <img id="image" src="image.png" alt="">
+                    </div>
+                </div>
+
+                <div>
+                    <h6>Experiences</h6>
+                    <div id="experiencesContainer">
+                        <div class="btnexperience">
+                            <button type="button">Add experience</button>
+                        </div>
+
+                        <label>Email:</label>
+                        <input type="email" name="email" id="email">
+                        <span class="email errorSpan"></span>
+
+                        <label>Phone:</label>
+                        <input type="text" name="phone" id="phone">
+                        <span class="phone errorSpan"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" id="Submit" class="btn-save">Save worker</button>
+                    <span id="errorSpan"></span>
+                    <button type="button" class="btn-cancel">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+
+</html>
