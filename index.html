@@ -13,7 +13,7 @@
         <h2>Staff Members</h2>
 
         <div class="box_workers">
-           
+
         </div>
         <div class="btnAdd">
             <button>+ Add New</button>
@@ -79,11 +79,11 @@
             <form id="workerForm" action="#" method="post">
                 <div>
                     <label>Name</label>
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="name" id="name" required>
                     <span class="name errorSpan"></span>
 
                     <label>Role</label>
-                    <select name="role" class="role" id="role">
+                    <select name="role" class="role" id="role" required>
                         <option value="Receptionist">Receptionist</option>
                         <option value="It guy">It guy</option>
                         <option value="cleaning">Cleaning</option>
@@ -92,10 +92,10 @@
                     <span class="role errorSpan"></span>
 
                     <label>Url</label>
-                    <input type="url" name="url" id="url">
+                    <input type="url" name="url" id="url" required>
                     <span class="url errorSpan"></span>
                     <div>
-                        <img id="image" src="image.png" alt="">
+                        <img id="image" src="image.png"  alt="">
                     </div>
                 </div>
 
@@ -107,11 +107,11 @@
                         </div>
 
                         <label>Email:</label>
-                        <input type="email" name="email" id="email">
+                        <input type="email" name="email" id="email" required>
                         <span class="email errorSpan"></span>
 
                         <label>Phone:</label>
-                        <input type="text" name="phone" id="phone">
+                        <input type="text" name="phone" id="phone" required>
                         <span class="phone errorSpan"></span>
                     </div>
                 </div>

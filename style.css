@@ -1,4 +1,3 @@
-
 :root {
     --color-primary: #ff6b6b;
     --color-secondary: #00d4ff;
@@ -261,8 +260,8 @@ section img {
     border-radius: var(--radius-md);
     cursor: pointer;
     font-size: 15px;
-    
-  
+
+
 }
 
 section button {
@@ -288,6 +287,7 @@ section button:last-child {
 section button:hover {
     opacity: 0.85;
 }
+
 .card {
     display: flex;
     align-items: center;
@@ -326,8 +326,242 @@ section button:hover {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+
 }
 
 .card button:hover {
     background: #005fcc;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+}
+
+.modal-content img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.modal-content h2 {
+    margin: 10px 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.modal-content p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.modal-content h3 {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #333;
+}
+
+.exp-card {
+    text-align: left;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.exp-card p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+#closeProfile {
+    margin-top: 15px;
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#closeProfile:hover {
+    background-color: #0056b3;
+}
+
+
+
+@media (max-width: 992px) {
+    body {
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    .header {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #ececec;
+    }
+
+    main {
+        width: 100%;
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .box_rom {
+        height: auto;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas:
+            "a b c"
+            "d e f"
+            "g h .";
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 15px;
+    }
+
+    .btnAdd button {
+        width: 100%;
+    }
+
+    .box_rom {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 15px;
+        grid-template-areas:
+            "a b"
+            "c d"
+            "e f"
+            "g h";
+    }
+
+    .box_rom>div {
+        padding: 10px;
+    }
+
+    .box_rom button {
+        width: 32px;
+        height: 32px;
+        font-size: 17px;
+    }
+
+    section form {
+        width: 90%;
+        height: 85%;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 15px 20px;
+    }
+
+    .modal-content img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    .modal-content p,
+    .exp-card p {
+        font-size: 14px;
+    }
+
+    .exp-card {
+        padding: 6px;
+    }
+
+    #closeProfile {
+        padding: 6px 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 18px;
+    }
+
+    .box_rom {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "a"
+            "b"
+            "c"
+            "d"
+            "e"
+            "f"
+            "g"
+            "h";
+    }
+
+    .box_rom button {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    section form {
+        width: 95%;
+        height: 90%;
+        padding: 15px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 10px 15px;
+    }
+
+    .modal-content img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .modal-content h2 {
+        font-size: 18px;
+    }
+
+    .modal-content h3 {
+        font-size: 16px;
+    }
+
+    .modal-content p,
+    .exp-card p {
+        font-size: 13px;
+    }
+
+    #closeProfile {
+        padding: 5px 10px;
+        font-size: 13px;
+    }
 }
