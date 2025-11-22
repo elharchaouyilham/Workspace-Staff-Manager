@@ -319,6 +319,7 @@ section button:hover {
 }
 
 .card button {
+    display:flex;
     margin-left: auto;
     padding: 6px 10px;
     border: none;
@@ -327,6 +328,13 @@ section button:hover {
     border-radius: 5px;
     cursor: pointer;
 
+}
+.nameBox{
+    flex-grow: 1;
+}
+.boxBtn{
+    gap: 2px;
+    display: flex;
 }
 
 .card button:hover {
