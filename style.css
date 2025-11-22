@@ -108,12 +108,14 @@ main {
 
     backdrop-filter: blur(10px);
 
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns:
+        minmax(100px, 1.2fr) minmax(100px, 1.2fr) minmax(100px, 1fr) minmax(100px, 1.4fr) minmax(100px, 1.4fr);
+    grid-template-rows: repeat(3, minmax(100px, 1fr));
 
     grid-template-areas:
-        "a b c d"
-        "e f g h";
+        "a a b c d"
+        "e e b f f" 
+        "e e b g h";
 }
 
 .box_rom>div:nth-child(1) {

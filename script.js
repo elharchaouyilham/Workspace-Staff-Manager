@@ -6,8 +6,8 @@ const image = document.getElementById("image");
 const form = document.getElementById("workerForm");
 const workersBox = document.querySelector(".box_workers");
 const experiencesContainer = document.getElementById("experiencesContainer");
-const closeSelectBtn =document.getElementById("CloseSelect");
-const buttons=document.querySelectorAll(".AjouteWorker");
+const closeSelectBtn = document.getElementById("CloseSelect");
+const buttons = document.querySelectorAll(".AjouteWorker");
 
 let workers = JSON.parse(localStorage.getItem("workers")) || [];
 
@@ -84,6 +84,7 @@ form.addEventListener("submit", e => {
         phone: form.phone.value,
         role: form.role.value,
         image: form.url.value,
+        Existe: false,
         experiences
     };
 
@@ -128,10 +129,10 @@ function renderWorkers() {
                     <input type="text" name="company" value="${exp.company}">
                     <label>Role :</label>
                     <select required>
-                        <option value="Receptionist" ${exp.role=="Receptionist" ? "selected" : ""}>Receptionist</option>
-                        <option value="It guy" ${exp.role=="It guy" ? "selected" : ""}>It guy</option>
-                        <option value="cleaning" ${exp.role=="cleaning" ? "selected" : ""}>Cleaning</option>
-                        <option value="other" ${exp.role=="other" ? "selected" : ""}>Other</option>
+                        <option value="Receptionist" ${exp.role == "Receptionist" ? "selected" : ""}>Receptionist</option>
+                        <option value="It guy" ${exp.role == "It guy" ? "selected" : ""}>It guy</option>
+                        <option value="cleaning" ${exp.role == "cleaning" ? "selected" : ""}>Cleaning</option>
+                        <option value="other" ${exp.role == "other" ? "selected" : ""}>Other</option>
                     </select>
                     <label>From :</label>
                     <input type="date" name="from" value="${exp.from}">
@@ -143,7 +144,7 @@ function renderWorkers() {
                 block.querySelector(".deleteExp").addEventListener("click", () => block.remove());
             });
 
-            form.onsubmit = function(e) {
+            form.onsubmit = function (e) {
                 e.preventDefault();
                 if (!validateForm()) return;
 
@@ -208,35 +209,79 @@ function showProfile(worker) {
     });
 }
 
- closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "flex"); 
- closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "none"); 
- buttons.forEach(button => {
-  button.addEventListener('click', () => {
-   WorkerZone.style.display="flex";
-   workerszone();
+closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "flex");
+closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "none");
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        WorkerZone.style.display = "flex";
+        workerszone();
+
+    });
+})
+
+function workerszone() {
+    const roomsRoles = {
+        conférence: ["Cleaning", "Manager", "Other"],
+        serveurs: ["It guy", "Manager", "Cleaning"],
+        sécurité: ["security", "Manager", "Cleaning"],
+        Réception: ["Receptionist", "Cleaning", "Manager"],
+        personnel: ["Cleaning", "Manager", "Other"],
+        archives: ["Manager", "Other"]
+    };
+    let workers = JSON.parse(localStorage.getItem("workers")) || [];
+    const displayWorkers = document.getElementById("displayWorkers")
     
-  });
-}) 
-function workerszone(){
-let workers = JSON.parse(localStorage.getItem("workers")) || [];
-const displayWorkers = document.getElementById("displayWorkers")
-displayWorkers.innerHTML = ""
-    workers.forEach(worker =>{
-        displayWorkers.innerHTML += `
-    <div style="display:flex; overflow:auto">
+    buttons.forEach(button => {
+        
+        button.addEventListener("click", () => {
+            displayWorkers.innerHTML = ""
+            const nameRoom = button.getAttribute("data-room")
+            console.log(nameRoom)
+            workers.forEach(worker => {
+                const workerRole = worker.role
+                console.log(workerRole)
+                if (roomsRoles[nameRoom].includes(workerRole)) {
+                    displayWorkers.innerHTML += `
+                       
+                        <div class="cardAffichage" style="display:flex; overflow:auto">
         <img src="${worker.image}" onerror="this.src='image.png'">
             <div class ="nameBox">
                 <h4>${worker.name}</h4>
                 <p>${worker.role}</p>
             </div>
     </div>
-            
-`
+                    
+                    `
+                    WorkersRomm(button,worker)
+                }
+            })
+        })
+    })
+
+
+}
+function WorkersRomm(button,worker){
+    let workers = JSON.parse(localStorage.getItem("workers")) || [];
+    const cardAffichage = document.querySelectorAll(".cardAffichage")
+
+    cardAffichage.forEach(card => {
+        card.addEventListener("click",()=>{
+            const placeRoom = button.parentElement
+            placeRoom.innerHTML += `
+                <div class="cardAffichage" style="display:flex; overflow:auto">
+        <img src="${worker.image}" onerror="this.src='image.png'">
+            <div class ="nameBox">
+                <h4>${worker.name}</h4>
+                <p>${worker.role}</p>
+            </div>
+    </div>
+            `
+        })
     })
 }
-
 document.addEventListener("DOMContentLoaded", () => {
     renderWorkers();
+    workerszone();
 
     const btnAddExp = document.querySelector(".btnexperience button");
     btnAddExp.addEventListener("click", () => {
