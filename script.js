@@ -6,6 +6,8 @@ const image = document.getElementById("image");
 const form = document.getElementById("workerForm");
 const workersBox = document.querySelector(".box_workers");
 const experiencesContainer = document.getElementById("experiencesContainer");
+const closeSelectBtn =document.getElementById("CloseSelect");
+const buttons=document.querySelectorAll(".AjouteWorker");
 
 let workers = JSON.parse(localStorage.getItem("workers")) || [];
 
@@ -204,6 +206,33 @@ function showProfile(worker) {
     document.getElementById("closeProfile").addEventListener("click", () => {
         document.getElementById("profileModal").remove();
     });
+}
+
+ closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "flex"); 
+ closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "none"); 
+ buttons.forEach(button => {
+  button.addEventListener('click', () => {
+   WorkerZone.style.display="flex";
+   workerszone();
+    
+  });
+}) 
+function workerszone(){
+let workers = JSON.parse(localStorage.getItem("workers")) || [];
+const displayWorkers = document.getElementById("displayWorkers")
+displayWorkers.innerHTML = ""
+    workers.forEach(worker =>{
+        displayWorkers.innerHTML += `
+    <div style="display:flex; overflow:auto">
+        <img src="${worker.image}" onerror="this.src='image.png'">
+            <div class ="nameBox">
+                <h4>${worker.name}</h4>
+                <p>${worker.role}</p>
+            </div>
+    </div>
+            
+`
+    })
 }
 
 document.addEventListener("DOMContentLoaded", () => {
