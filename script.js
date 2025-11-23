@@ -16,6 +16,36 @@ cancelBtn.addEventListener("click", closeForm);
 formSection.addEventListener("click", e => { if (e.target === formSection) closeForm(); });
 inputUrl.addEventListener("input", () => image.src = inputUrl.value);
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderWorkers();
+    workerszone();
+
+    const btnAddExp = document.querySelector(".btnexperience button");
+    btnAddExp.addEventListener("click", () => {
+        const block = document.createElement("div");
+        block.classList.add("experience-block");
+        block.innerHTML = `
+            <label>Company :</label>
+            <input type="text" name="company">
+            <label>Role :</label>
+            <select required>
+                <option value="Receptionist">Receptionist</option>
+                <option value="It guy">It guy</option>
+                <option value="cleaning">Cleaning</option>
+                <option value="other">Other</option>
+            </select>
+            <label>From :</label>
+            <input type="date" name="from">
+            <label>To :</label>
+            <input type="date" name="to">
+            <button type="button" class="deleteExp">Remove</button>
+        `;
+        experiencesContainer.appendChild(block);
+        block.querySelector(".deleteExp").addEventListener("click", () => block.remove());
+    });
+});
+
 function closeForm() {
     formSection.style.display = "none";
     form.reset();
@@ -203,7 +233,6 @@ function showProfile(worker) {
             </div>
         </div>
     `;
-    document.body.insertAdjacentHTML("beforeend", modalHTML);
     document.getElementById("closeProfile").addEventListener("click", () => {
         document.getElementById("profileModal").remove();
     });
@@ -243,7 +272,7 @@ function workerszone() {
                 if (roomsRoles[nameRoom].includes(workerRole)) {
                     displayWorkers.innerHTML += `
                        
-                        <div class="cardAffichage" style="display:flex; overflow:auto">
+                        <div class="cardAffichage" style="display:flex; width:100%">
         <img src="${worker.image}" onerror="this.src='image.png'">
             <div class ="nameBox">
                 <h4>${worker.name}</h4>
@@ -263,11 +292,10 @@ function workerszone() {
 function WorkersRomm(button,worker){
     let workers = JSON.parse(localStorage.getItem("workers")) || [];
     const cardAffichage = document.querySelectorAll(".cardAffichage")
-
     cardAffichage.forEach(card => {
         card.addEventListener("click",()=>{
-            const placeRoom = button.parentElement
-            placeRoom.innerHTML += `
+            const div = document.createElement("div");
+            div.innerHTML += `
                 <div class="cardAffichage" style="display:flex; overflow:auto">
         <img src="${worker.image}" onerror="this.src='image.png'">
             <div class ="nameBox">
@@ -276,34 +304,9 @@ function WorkersRomm(button,worker){
             </div>
     </div>
             `
+            button.parentElement.appendChild(div)
         })
+       
+    
     })
 }
-document.addEventListener("DOMContentLoaded", () => {
-    renderWorkers();
-    workerszone();
-
-    const btnAddExp = document.querySelector(".btnexperience button");
-    btnAddExp.addEventListener("click", () => {
-        const block = document.createElement("div");
-        block.classList.add("experience-block");
-        block.innerHTML = `
-            <label>Company :</label>
-            <input type="text" name="company">
-            <label>Role :</label>
-            <select required>
-                <option value="Receptionist">Receptionist</option>
-                <option value="It guy">It guy</option>
-                <option value="cleaning">Cleaning</option>
-                <option value="other">Other</option>
-            </select>
-            <label>From :</label>
-            <input type="date" name="from">
-            <label>To :</label>
-            <input type="date" name="to">
-            <button type="button" class="deleteExp">Remove</button>
-        `;
-        experiencesContainer.appendChild(block);
-        block.querySelector(".deleteExp").addEventListener("click", () => block.remove());
-    });
-});

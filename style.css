@@ -436,6 +436,7 @@ section button:hover {
     justify-content: center;
     gap: 10px;
     width: 30%;
+    height: 50%;
     padding: 10px;
     border-radius: 8px;
     font-family: Arial, sans-serif; 
@@ -450,6 +451,49 @@ section button:hover {
     cursor: pointer;
     margin: 0;
  }
+
+ .cardAffichage {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f8f8f8;
+    width: 230px;
+    height: 90px;
+    box-sizing: border-box;
+}
+
+.cardAffichage img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nameBox {
+    flex: 1;
+    min-width: 0;
+}
+
+.nameBox h4 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nameBox p {
+    margin: 2px 0 0;
+    color: #555;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 
 @media (max-width: 992px) {
