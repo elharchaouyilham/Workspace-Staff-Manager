@@ -8,7 +8,6 @@ const workersBox = document.querySelector(".box_workers");
 const experiencesContainer = document.getElementById("experiencesContainer");
 const closeSelectBtn = document.getElementById("CloseSelect");
 const buttons = document.querySelectorAll(".AjouteWorker");
-const DivzoneColor=document.querySelectorAll(".zoneColor");
 
 let workers = JSON.parse(localStorage.getItem("workers")) || [];
 
@@ -16,7 +15,6 @@ addBtn.addEventListener("click", () => formSection.style.display = "flex");
 cancelBtn.addEventListener("click", closeForm);
 formSection.addEventListener("click", e => { if (e.target === formSection) closeForm(); });
 inputUrl.addEventListener("input", () => image.src = inputUrl.value);
-
 
 document.addEventListener("DOMContentLoaded", () => {
     renderWorkers();
@@ -51,8 +49,6 @@ function closeForm() {
     formSection.style.display = "none";
     form.reset();
     image.src = "image.png";
-    form.querySelectorAll("input, select").forEach(i => i.style.border = "1px solid #ccc");
-    form.querySelectorAll(".errorSpan").forEach(span => span.textContent = "");
 }
 
 function validateForm() {
@@ -71,6 +67,7 @@ function validateForm() {
     fields.forEach(field => {
         const input = form[field];
         const span = input.nextElementSibling;
+
         if (!rules[field].regex.test(input.value.trim())) {
             input.style.border = "3px solid red";
             span.textContent = rules[field].message;
@@ -85,6 +82,7 @@ function validateForm() {
     for (let block of expBlocks) {
         const from = block.querySelector("input[name='from']").value;
         const to = block.querySelector("input[name='to']").value;
+
         if (from && to && new Date(from) > new Date(to)) {
             alert("La date 'From' doit être avant la date 'To'.");
             isValid = false;
@@ -115,139 +113,49 @@ form.addEventListener("submit", e => {
         phone: form.phone.value,
         role: form.role.value,
         image: form.url.value,
-        Existe: false,
+        assigned: false,
         experiences
     };
 
     workers.push(worker);
     localStorage.setItem("workers", JSON.stringify(workers));
+
     renderWorkers();
     closeForm();
 });
 
 function renderWorkers() {
     workersBox.innerHTML = "";
-    workers.forEach((worker, index) => {
+
+    workers.forEach((worker) => {
+
+        if (worker.assigned) return; // REMOVE from sidebar
+
         const card = document.createElement("div");
         card.classList.add("card");
+
         card.innerHTML = `
             <img src="${worker.image}" onerror="this.src='image.png'">
-            <div class ="nameBox">
+            <div class="nameBox">
                 <h4>${worker.name}</h4>
                 <p>${worker.role}</p>
             </div>
-            <div class="boxBtn">
-                <button type="button" class="editBtn">Modifier</button>
-                <button type="button" class="profilBtn">Profil</button>
-            </div>
         `;
-        card.querySelector(".profilBtn").addEventListener("click", () => showProfile(worker));
-        card.querySelector(".editBtn").addEventListener("click", () => {
-            formSection.style.display = "flex";
-            form.name.value = worker.name;
-            form.email.value = worker.email;
-            form.phone.value = worker.phone;
-            form.role.value = worker.role;
-            form.url.value = worker.image;
-            image.src = worker.image;
 
-            experiencesContainer.innerHTML = "";
-            worker.experiences.forEach(exp => {
-                const block = document.createElement("div");
-                block.classList.add("experience-block");
-                block.innerHTML = `
-                    <label>Company :</label>
-                    <input type="text" name="company" value="${exp.company}">
-                    <label>Role :</label>
-                    <select required>
-                        <option value="Receptionist" ${exp.role == "Receptionist" ? "selected" : ""}>Receptionist</option>
-                        <option value="It guy" ${exp.role == "It guy" ? "selected" : ""}>It guy</option>
-                        <option value="cleaning" ${exp.role == "cleaning" ? "selected" : ""}>Cleaning</option>
-                        <option value="other" ${exp.role == "other" ? "selected" : ""}>Other</option>
-                    </select>
-                    <label>From :</label>
-                    <input type="date" name="from" value="${exp.from}">
-                    <label>To :</label>
-                    <input type="date" name="to" value="${exp.to}">
-                    <button type="button" class="deleteExp">Remove</button>
-                `;
-                experiencesContainer.appendChild(block);
-                block.querySelector(".deleteExp").addEventListener("click", () => block.remove());
-            });
-
-            form.onsubmit = function (e) {
-                e.preventDefault();
-                if (!validateForm()) return;
-
-                const updatedExperiences = [];
-                document.querySelectorAll(".experience-block").forEach(exp => {
-                    updatedExperiences.push({
-                        company: exp.querySelector("input[name='company']").value,
-                        role: exp.querySelector("select").value,
-                        from: exp.querySelector("input[name='from']").value,
-                        to: exp.querySelector("input[name='to']").value
-                    });
-                });
-
-                workers[index] = {
-                    name: form.name.value,
-                    email: form.email.value,
-                    phone: form.phone.value,
-                    role: form.role.value,
-                    image: form.url.value,
-                    experiences: updatedExperiences
-                };
-                localStorage.setItem("workers", JSON.stringify(workers));
-                renderWorkers();
-                closeForm();
-                form.onsubmit = defaultSubmit;
-            }
-        });
         workersBox.appendChild(card);
     });
 }
 
-const defaultSubmit = form.onsubmit;
-
-function showProfile(worker) {
-    let modalHTML = `
-        <div id="profileModal" class="modal">
-            <div class="modal-content">
-                <img src="${worker.image}" alt="">
-                <h2>${worker.name}</h2>
-                <p><strong>Email:</strong> ${worker.email}</p>
-                <p><strong>Phone:</strong> ${worker.phone}</p>
-                <p><strong>Role:</strong> ${worker.role}</p>
-                <h3>Experiences</h3>
-                <div id="profileExperiences">
-                    ${worker.experiences.length === 0 ? "<p>Aucune expérience</p>" : worker.experiences.map(exp => `
-                        <div class="exp-card">
-                            <p><strong>Company:</strong> ${exp.company}</p>
-                            <p><strong>Role:</strong> ${exp.role}</p>
-                            <p><strong>From:</strong> ${exp.from}</p>
-                            <p><strong>To:</strong> ${exp.to}</p>
-                            <hr>
-                        </div>
-                    `).join("")}
-                </div>
-                <button id="closeProfile">Close</button>
-            </div>
-        </div>
-    `;
-    document.getElementById("closeProfile").addEventListener("click", () => {
-        document.getElementById("profileModal").remove();
-    });
-}
-
-closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "flex");
 closeSelectBtn.addEventListener("click", () => WorkerZone.style.display = "none");
-buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        WorkerZone.style.display = "flex";
-        workerszone();
 
-    });
-})
+const maxWorkersPerZone = {
+    conférence: 2,
+    serveurs: 2,
+    sécurité: 2,
+    Réception: 2,
+    personnel: 2,
+    archives: 2
+};
 
 function workerszone() {
     const roomsRoles = {
@@ -258,58 +166,74 @@ function workerszone() {
         personnel: ["Cleaning", "Manager", "Other"],
         archives: ["Manager", "Other"]
     };
-    let workers = JSON.parse(localStorage.getItem("workers")) || [];
-    const displayWorkers = document.getElementById("displayWorkers")
-    
+
+    const displayWorkers = document.getElementById("displayWorkers");
+
     buttons.forEach(button => {
-        
         button.addEventListener("click", () => {
-            displayWorkers.innerHTML = ""
-            const nameRoom = button.getAttribute("data-room")
-            console.log(nameRoom)
-            workers.forEach(worker => {
-                const workerRole = worker.role
-                console.log(workerRole)
-                if (roomsRoles[nameRoom].includes(workerRole)) {
-                    displayWorkers.innerHTML += `
-                       
-                        <div class="cardAffichage" style="display:flex; width:100%">
-        <img src="${worker.image}" onerror="this.src='image.png'">
-            <div class ="nameBox">
-                <h4>${worker.name}</h4>
-                <p>${worker.role}</p>
-            </div>
-    </div>
-                    
-                    `
-                    WorkersRomm(button,worker)
-                }
-            })
-        })
-    })
 
+            WorkerZone.style.display = "flex";
 
+            displayWorkers.innerHTML = "";
+            const nameRoom = button.getAttribute("data-room");
+
+            const filteredWorkers = workers.filter(
+                w => roomsRoles[nameRoom].includes(w.role)
+            );
+
+            filteredWorkers.forEach((worker) => {
+
+                const card = document.createElement("div");
+                card.classList.add("cardAffichage");
+                card.style.display = "flex";
+
+                card.innerHTML = `
+                    <img src="${worker.image}" onerror="this.src='image.png'">
+                    <div class="nameBox">
+                        <h4>${worker.name}</h4>
+                        <p>${worker.role}</p>
+                    </div>
+                `;
+
+                card.addEventListener("click", () => {
+                    addWorkerToZone(worker, button);
+                    worker.assigned = true;
+                    localStorage.setItem("workers", JSON.stringify(workers));
+                    renderWorkers();
+                    card.remove();
+                });
+
+                displayWorkers.appendChild(card);
+            });
+        });
+    });
 }
-function WorkersRomm(button,worker){
-    let workers = JSON.parse(localStorage.getItem("workers")) || [];
-    const cardAffichage = document.querySelectorAll(".cardAffichage")
-    cardAffichage.forEach(card => {
-        card.addEventListener("click",()=>{
-            const div = document.createElement("div");
-            div.innerHTML += `
-                <div class="cardAffichage" style="display:flex; overflow:auto">
+
+function addWorkerToZone(worker, zoneButton) {
+
+    const zoneDiv = zoneButton.closest(".zoneColor");
+    const zoneName = zoneButton.getAttribute("data-room");
+
+    if (!zoneDiv) return;
+
+    const currentWorkers = zoneDiv.querySelectorAll(".cardAffichage").length;
+    if (currentWorkers >= maxWorkersPerZone[zoneName]) {
+        alert("Cette zone a déjà 2 workers !");
+        return;
+    }
+
+    const div = document.createElement("div");
+    div.classList.add("cardAffichage");
+    div.style.display = "flex";
+
+    div.innerHTML = `
         <img src="${worker.image}" onerror="this.src='image.png'">
-            <div class ="nameBox">
-                <h4>${worker.name}</h4>
-                <p>${worker.role}</p>
-            </div>
-    </div>
-            `
-            button.parentElement.appendChild(div)
-        })
-       
-    DivzoneColor.forEach(zoneColor => {
-    zoneColor.style.backgroundColor= "rgba(255, 0, 0, 0)";
-});
-    })
+        <div class="nameBox">
+            <h4>${worker.name}</h4>
+            <p>${worker.role}</p>
+            <button>X</button>
+        </div>
+    `;
+
+    zoneDiv.appendChild(div);
 }
