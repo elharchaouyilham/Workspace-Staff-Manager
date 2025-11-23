@@ -8,6 +8,7 @@ const workersBox = document.querySelector(".box_workers");
 const experiencesContainer = document.getElementById("experiencesContainer");
 const closeSelectBtn = document.getElementById("CloseSelect");
 const buttons = document.querySelectorAll(".AjouteWorker");
+const DivzoneColor=document.querySelectorAll(".zoneColor");
 
 let workers = JSON.parse(localStorage.getItem("workers")) || [];
 
@@ -307,6 +308,8 @@ function WorkersRomm(button,worker){
             button.parentElement.appendChild(div)
         })
        
-    
+    DivzoneColor.forEach(zoneColor => {
+    zoneColor.style.backgroundColor= "rgba(255, 0, 0, 0)";
+});
     })
 }

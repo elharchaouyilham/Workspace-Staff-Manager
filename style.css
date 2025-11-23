@@ -494,6 +494,9 @@ section button:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.zoneColor{
+    background-color: rgba(255, 0, 0, 0.377);
+}
 
 
 @media (max-width: 992px) {
