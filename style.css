@@ -114,7 +114,7 @@ main {
 
     grid-template-areas:
         "a a b c d"
-        "e e b f f" 
+        "e e b f f"
         "e e b g h";
 }
 
@@ -321,7 +321,7 @@ section button:hover {
 }
 
 .card button {
-    display:flex;
+    display: flex;
     margin-left: auto;
     padding: 6px 10px;
     border: none;
@@ -331,10 +331,12 @@ section button:hover {
     cursor: pointer;
 
 }
-.nameBox{
+
+.nameBox {
     flex-grow: 1;
 }
-.boxBtn{
+
+.boxBtn {
     gap: 2px;
     display: flex;
 }
@@ -422,13 +424,15 @@ section button:hover {
 #closeProfile:hover {
     background-color: #0056b3;
 }
-.TitleZone{
+
+.TitleZone {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 70px;
 }
- .zone{
+
+.zone {
     overflow: auto;
     /* display: flex; */
     background-color: white;
@@ -439,20 +443,21 @@ section button:hover {
     height: 50%;
     padding: 10px;
     border-radius: 8px;
-    font-family: Arial, sans-serif; 
- }
- #CloseSelect{
-    display:flex;
+    font-family: Arial, sans-serif;
+}
+
+#CloseSelect {
+    display: flex;
     padding: 6px 10px;
     border: none;
-    background:black;
+    background: black;
     color: white;
     border-radius: 5px;
     cursor: pointer;
     margin: 0;
- }
+}
 
- .cardAffichage {
+.cardAffichage {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -494,7 +499,8 @@ section button:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.zoneColor{
+
+.zoneColor {
     background-color: rgba(255, 0, 0, 0.486);
 }
 

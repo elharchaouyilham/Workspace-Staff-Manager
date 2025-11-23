@@ -130,7 +130,7 @@ function renderWorkers() {
 
     workers.forEach((worker) => {
 
-        if (worker.assigned) return; // REMOVE from sidebar
+        if (worker.assigned) return;
 
         const card = document.createElement("div");
         card.classList.add("card");
@@ -238,8 +238,6 @@ function addWorkerToZone(worker, zoneButton) {
     zoneDiv.appendChild(div);
     closeworker()
 }
-
-
 function closeworker() {
     const closeBtns = document.querySelectorAll(".closeBtn");
 
@@ -247,17 +245,14 @@ function closeworker() {
         btn.addEventListener("click", () => {
             const cardDiv = btn.closest(".cardAffichage");
             const name = cardDiv.querySelector("h4").textContent;
-
-            // trouver le worker dans le tableau
             let allWorkers = JSON.parse(localStorage.getItem("workers")) || [];
             const worker = allWorkers.find(w => w.name === name);
             if (worker) {
                 worker.assigned = false;
             }
-
             localStorage.setItem("workers", JSON.stringify(allWorkers));
-            renderWorkers();    // réaffiche le sidebar
-            cardDiv.remove();   // supprime de la room
+            renderWorkers();
+            cardDiv.remove();
         });
     });
 }
