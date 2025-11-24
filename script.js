@@ -8,6 +8,7 @@ const workersBox = document.querySelector(".box_workers");
 const experiencesContainer = document.getElementById("experiencesContainer");
 const closeSelectBtn = document.getElementById("CloseSelect");
 const buttons = document.querySelectorAll(".AjouteWorker");
+const WorkerZone = document.getElementById("WorkerZone");
 
 let workers = JSON.parse(localStorage.getItem("workers")) || [];
 
@@ -17,7 +18,7 @@ formSection.addEventListener("click", e => { if (e.target === formSection) close
 inputUrl.addEventListener("input", () => image.src = inputUrl.value);
 
 document.addEventListener("DOMContentLoaded", () => {
-    closeworker()
+    closeworker();
     renderWorkers();
     workerszone();
 
@@ -129,7 +130,6 @@ function renderWorkers() {
     workersBox.innerHTML = "";
 
     workers.forEach((worker) => {
-
         if (worker.assigned) return;
 
         const card = document.createElement("div");
@@ -141,7 +141,10 @@ function renderWorkers() {
                 <h4>${worker.name}</h4>
                 <p>${worker.role}</p>
             </div>
+            <button class="profilBtn">Profil</button>
         `;
+
+        card.querySelector(".profilBtn").addEventListener("click", () => showProfile(worker));
 
         workersBox.appendChild(card);
     });
@@ -172,9 +175,7 @@ function workerszone() {
 
     buttons.forEach(button => {
         button.addEventListener("click", () => {
-
             WorkerZone.style.display = "flex";
-
             displayWorkers.innerHTML = "";
             const nameRoom = button.getAttribute("data-room");
 
@@ -183,7 +184,6 @@ function workerszone() {
             );
 
             filteredWorkers.forEach((worker) => {
-
                 const card = document.createElement("div");
                 card.classList.add("cardAffichage");
                 card.style.display = "flex";
@@ -211,7 +211,6 @@ function workerszone() {
 }
 
 function addWorkerToZone(worker, zoneButton) {
-
     const zoneDiv = zoneButton.closest(".zoneColor");
     const zoneName = zoneButton.getAttribute("data-room");
 
@@ -232,12 +231,13 @@ function addWorkerToZone(worker, zoneButton) {
         <div class="nameBox">
             <h4>${worker.name}</h4>
             <p>${worker.role}</p>
-            <button class="closeBtn">X</button>
         </div>
+        <button class="closeBtn">X</button>
     `;
     zoneDiv.appendChild(div);
-    closeworker()
+    closeworker();
 }
+
 function closeworker() {
     const closeBtns = document.querySelectorAll(".closeBtn");
 
@@ -255,4 +255,45 @@ function closeworker() {
             cardDiv.remove();
         });
     });
+}
+
+function showProfile(worker) {
+    const modal = document.createElement("div");
+    modal.id = "profileModal";
+    modal.classList.add("modal");
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <img src="${worker.image}" alt="">
+            <h2>${worker.name}</h2>
+            <p><strong>Email :</strong> ${worker.email}</p>
+            <p><strong>Téléphone :</strong> ${worker.phone}</p>
+            <p><strong>Rôle :</strong> ${worker.role}</p>
+
+            <h3>Experiences</h3>
+            <div id="profileExperiences">
+                ${
+                    worker.experiences.length === 0
+                    ? "<p>Aucune expérience</p>"
+                    : worker.experiences
+                        .map(exp => `
+                            <div class="exp-card">
+                                <p><strong>Company :</strong> ${exp.company}</p>
+                                <p><strong>Role :</strong> ${exp.role}</p>
+                                <p><strong>From :</strong> ${exp.from}</p>
+                                <p><strong>To :</strong> ${exp.to}</p>
+                                <hr>
+                            </div>
+                        `)
+                        .join("")
+                }
+            </div>
+
+            <button id="closeProfile">Close</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.querySelector("#closeProfile").addEventListener("click", () => modal.remove());
 }
