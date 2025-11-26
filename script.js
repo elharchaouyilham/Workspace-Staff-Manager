@@ -21,7 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     closeworker();
     renderWorkers();
     workerszone();
-
+    // alert("hello")
+    addExperience()
+    });
+    function addExperience(){
     const btnAddExp = document.querySelector(".btnexperience button");
     btnAddExp.addEventListener("click", () => {
         const block = document.createElement("div");
@@ -45,11 +48,14 @@ document.addEventListener("DOMContentLoaded", () => {
         experiencesContainer.appendChild(block);
         block.querySelector(".deleteExp").addEventListener("click", () => block.remove());
     });
-});
+}
 
 function closeForm() {
     formSection.style.display = "none";
     form.reset();
+    form.querySelectorAll("input").forEach(inpt =>{
+        inpt.style.border = "1px solid black"
+    })
     image.src = "image.png";
 }
 
@@ -81,6 +87,7 @@ function validateForm() {
     });
 
     const expBlocks = document.querySelectorAll(".experience-block");
+    
     for (let block of expBlocks) {
         const from = block.querySelector("input[name='from']").value;
         const to = block.querySelector("input[name='to']").value;
@@ -139,7 +146,7 @@ function renderWorkers() {
             <img src="${worker.image}" onerror="this.src='image.png'">
             <div class="nameBox">
                 <h4>${worker.name}</h4>
-                <p>${worker.role}</p>
+                <p class="textRole">${worker.role}</p>
             </div>
             <button class="profilBtn">Profil</button>
         `;
@@ -187,14 +194,17 @@ function workerszone() {
                 const card = document.createElement("div");
                 card.classList.add("cardAffichage");
                 card.style.display = "flex";
-
-                card.innerHTML = `
+                if(worker.assigned == false){   
+                    card.innerHTML = `
                     <img src="${worker.image}" onerror="this.src='image.png'">
                     <div class="nameBox">
                         <h4>${worker.name}</h4>
                         <p>${worker.role}</p>
                     </div>
                 `;
+                displayWorkers.appendChild(card);
+                }
+                
 
                 card.addEventListener("click", () => {
                     addWorkerToZone(worker, button);
@@ -204,7 +214,7 @@ function workerszone() {
                     card.remove();
                 });
 
-                displayWorkers.appendChild(card);
+                
             });
         });
     });
@@ -225,7 +235,7 @@ function addWorkerToZone(worker, zoneButton) {
     const div = document.createElement("div");
     div.classList.add("cardAffichage");
     div.style.display = "flex";
-
+    
     div.innerHTML = `
         <img src="${worker.image}" onerror="this.src='image.png'">
         <div class="nameBox">
@@ -236,6 +246,10 @@ function addWorkerToZone(worker, zoneButton) {
     `;
     zoneDiv.appendChild(div);
     closeworker();
+    const cardAffichages = document.querySelector(".cardAffichage").closest(".zoneColor");
+    console.log(cardAffichages)
+     cardAffichages.style.backgroundColor = "rgba(255, 0, 0, 0)"
+    retourRed()
 }
 
 function closeworker() {
@@ -264,7 +278,7 @@ function showProfile(worker) {
 
     modal.innerHTML = `
         <div class="modal-content">
-            <img src="${worker.image}" alt="">
+            <img src="${worker.image}" onerror="this.src='image.png'" >
             <h2>${worker.name}</h2>
             <p><strong>Email :</strong> ${worker.email}</p>
             <p><strong>Téléphone :</strong> ${worker.phone}</p>
